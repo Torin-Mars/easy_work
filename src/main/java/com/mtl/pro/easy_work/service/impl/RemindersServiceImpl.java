@@ -1,6 +1,7 @@
 package com.mtl.pro.easy_work.service.impl;
 
 import com.mtl.pro.easy_work.common.RespRes;
+import com.mtl.pro.easy_work.common.StaticFileds;
 import com.mtl.pro.easy_work.dao.ReminderMapper;
 import com.mtl.pro.easy_work.dao.TimeRemindersMapper;
 import com.mtl.pro.easy_work.entity.Reminder;
@@ -34,15 +35,19 @@ public class RemindersServiceImpl implements RemindersService {
 
     @Override
     public RespRes addReminder(Reminder reminder) {
-        reminder.setId(reminderMapper.selectMaxId() + 1);
+        Integer integer = reminderMapper.selectMaxId();
+        reminder.setId((integer == null ? 0 : integer) + 1);
         reminderMapper.insert(reminder);
         return RespRes.ok(reminder);
     }
 
     @Override
     public RespRes addTimeReminder(TimeReminders time) {
-        time.setId(timeRemindersMapper.selectMaxId() + 1);
+        Integer integer = timeRemindersMapper.selectMaxId();
+        time.setId((integer == null ? 0 : integer) + 1);
         timeRemindersMapper.insert(time);
+        //添加到提醒序列中
+        StaticFileds.timesAdd(time.getTime());
         return RespRes.ok(time);
     }
 
@@ -54,5 +59,15 @@ public class RemindersServiceImpl implements RemindersService {
         reminderMapper.deleteByExample(reminderExample);
         timeRemindersMapper.deleteByPrimaryKey(id);
         return RespRes.ok();
+    }
+
+    @Override
+    public List<TimeReminders> selectTimes() {
+        return timeRemindersMapper.selectByExample(null);
+    }
+
+    @Override
+    public List<String> selectByTime(String time) {
+        return timeRemindersMapper.selectReminderByTime(time);
     }
 }

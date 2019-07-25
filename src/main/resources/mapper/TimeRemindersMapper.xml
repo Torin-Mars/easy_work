@@ -8,6 +8,15 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <collection property="res" column="id" select="com.mtl.pro.easy_work.dao.ReminderMapper.selectByTrId" />
   </resultMap>
+  <select id="selectReminderByTime" resultType="string">
+    SELECT
+        r.reminder
+    FROM
+        reminder r
+        LEFT JOIN time_reminders tr ON tr.id = r.tr_id
+    WHERE
+        tr.time = #{time}
+  </select>
   <select id="selectMaxId" resultType="int">
     select
       max(id)

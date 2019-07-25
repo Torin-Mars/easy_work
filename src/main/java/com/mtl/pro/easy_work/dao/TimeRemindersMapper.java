@@ -32,4 +32,6 @@ public interface TimeRemindersMapper {
     int updateByPrimaryKey(TimeReminders record);
 
     Integer selectMaxId();
+
+    List<String> selectReminderByTime(@Param("time") String time);
 }

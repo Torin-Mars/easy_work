@@ -1,14 +1,11 @@
 package com.mtl.pro.easy_work.common;
 
-import lombok.Data;
-
 /**
  * TODO ..
  *
  * @auther liegeheijie@gmail.com
  * @date 2019/5/15 8:31
  */
-@Data
 public class RespRes {
     private int code;
     private String msg;
@@ -50,5 +47,29 @@ public class RespRes {
 
     public static RespRes error(String msg, Object data){
         return new RespRes(1, msg, data);
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
     }
 }
